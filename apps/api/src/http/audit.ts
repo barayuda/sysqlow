@@ -1,4 +1,5 @@
 import type { MiddlewareHandler } from 'hono'
+import { ApiError } from './errors'
 
 export type AuditEvent = {
 	action: string
@@ -24,17 +25,28 @@ const writeMethods = new Set([
 
 export function auditMiddleware(auditLogger: AuditLogger): MiddlewareHandler {
 	return async (context, next) => {
-		await next()
+		let thrownError: unknown
 
-		if (!writeMethods.has(context.req.method)) {
-			return
+		try {
+			await next()
+		} catch (error) {
+			thrownError = error
+			throw error
+		} finally {
+			if (!writeMethods.has(context.req.method)) {
+				return
+			}
+
+			const status = thrownError instanceof ApiError
+				? thrownError.status
+				: context.res.status
+
+			await auditLogger.record({
+				action: `${context.req.method} ${context.req.path}`,
+				method: context.req.method,
+				path: context.req.path,
+				status
+			})
 		}
-
-		await auditLogger.record({
-			action: `${context.req.method} ${context.req.path}`,
-			method: context.req.method,
-			path: context.req.path,
-			status: context.res.status
-		})
 	}
 }

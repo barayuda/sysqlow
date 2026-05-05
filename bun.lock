@@ -13,6 +13,8 @@
     "apps/api": {
       "name": "@sysqlow/api",
       "dependencies": {
+        "@sysqlow/memory": "workspace:*",
+        "@sysqlow/shared": "workspace:*",
         "hono": "^4.9.6",
         "zod": "^4.1.13",
       },
@@ -56,6 +58,9 @@
     },
     "packages/memory": {
       "name": "@sysqlow/memory",
+      "dependencies": {
+        "@sysqlow/shared": "workspace:*",
+      },
     },
     "packages/model-adapters": {
       "name": "@sysqlow/model-adapters",

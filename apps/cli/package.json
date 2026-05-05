@@ -2,7 +2,10 @@
 	"name": "@sysqlow/cli",
 	"private": true,
 	"type": "module",
+	"bin": {
+		"sysqlow": "./src/index.ts"
+	},
 	"scripts": {
-		"dev": "echo 'cli not implemented yet'"
+		"dev": "bun src/index.ts"
 	}
 }

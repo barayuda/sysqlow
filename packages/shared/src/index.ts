@@ -105,6 +105,7 @@ export const memoryRecordSchema = z.object({
 	sourceChunkIds: z.array(uuidSchema),
 	validFrom: dateSchema.optional(),
 	validUntil: dateSchema.optional(),
+	metadata: metadataSchema.default({}),
 	createdAt: dateSchema,
 	updatedAt: dateSchema
 })
@@ -120,6 +121,7 @@ export const decisionMemorySchema = z.object({
 	alternatives: z.array(z.string()),
 	status: recordStatusSchema,
 	sourceIds: z.array(uuidSchema),
+	metadata: metadataSchema.default({}),
 	createdAt: dateSchema,
 	updatedAt: dateSchema
 })

@@ -1,12 +1,19 @@
 import { Hono } from 'hono'
+import {
+	createInMemoryMemoryRepository,
+	createMemoryService,
+	type MemoryService
+} from '@sysqlow/memory'
 import { apiKeyAuth } from './http/auth'
 import { auditMiddleware, noopAuditLogger, type AuditLogger } from './http/audit'
 import { ApiError, jsonError } from './http/errors'
 import { validationMiddleware } from './http/validation'
+import { registerMemoryRoutes } from './routes/memory'
 
 export type CreateAppOptions = {
 	apiKey?: string
 	auditLogger?: AuditLogger
+	memoryService?: MemoryService
 	registerV1Routes?: (router: Hono) => void
 }
 
@@ -14,6 +21,9 @@ export function createApp(options: CreateAppOptions = {}) {
 	const app = new Hono()
 	const apiKey = options.apiKey ?? process.env.API_KEY
 	const auditLogger = options.auditLogger ?? noopAuditLogger
+	const memoryService = options.memoryService ?? createMemoryService({
+		repository: createInMemoryMemoryRepository()
+	})
 
 	app.get('/health', (context) => {
 		return context.json({
@@ -32,6 +42,7 @@ export function createApp(options: CreateAppOptions = {}) {
 		})
 	})
 
+	registerMemoryRoutes(v1, memoryService)
 	options.registerV1Routes?.(v1)
 	app.route('/v1', v1)
 
