@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"allowImportingTsExtensions": true,
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"types": [
+			"bun"
+		]
+	},
+	"include": [
+		"apps/**/*.ts",
+		"packages/**/*.ts"
+	]
+}

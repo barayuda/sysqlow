@@ -1,0 +1,8 @@
+{
+	"name": "@sysqlow/worker",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "echo 'worker not implemented yet'"
+	}
+}

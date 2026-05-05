@@ -1,0 +1,21 @@
+bun test v1.3.13 (bf2e2cec)
+
+apps/api/test/health.test.ts:
+(pass) GET /health > returns ok status payload [12.87ms]
+
+packages/database/test/schema.test.ts:
+(pass) database schema > exports all required tables [0.21ms]
+(pass) database schema > scopes records by workspace and project where relevant [0.48ms]
+(pass) database schema > defines pgvector migration support and important indexes [3.85ms]
+
+packages/shared/test/domain-schemas.test.ts:
+(pass) shared domain schemas > accept valid workspace and project objects [2.29ms]
+(pass) shared domain schemas > reject invalid IDs and unsupported query intents [4.04ms]
+(pass) shared domain schemas > accept valid knowledge, memory, retrieval, and context pack objects [3.39ms]
+(pass) shared domain schemas > reject invalid scores, counts, and statuses [0.22ms]
+(pass) shared domain schemas > accept model profiles and evaluation records [1.30ms]
+
+ 9 pass
+ 0 fail
+ 50 expect() calls
+Ran 9 tests across 3 files. [229.00ms]

@@ -1,0 +1,8 @@
+{
+	"name": "@sysqlow/vscode-extension",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "echo 'vscode extension not implemented yet'"
+	}
+}

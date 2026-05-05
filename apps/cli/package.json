@@ -1,0 +1,8 @@
+{
+	"name": "@sysqlow/cli",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "echo 'cli not implemented yet'"
+	}
+}

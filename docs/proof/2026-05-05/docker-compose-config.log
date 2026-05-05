@@ -1,0 +1,42 @@
+name: sysqlow-portable-context-engine
+services:
+  ollama:
+    image: ollama/ollama:latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 11434
+        published: "11434"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: ollama-data
+        target: /root/.ollama
+        volume: {}
+  postgres:
+    environment:
+      POSTGRES_DB: sysqlow
+      POSTGRES_PASSWORD: sysqlow
+      POSTGRES_USER: sysqlow
+    image: pgvector/pgvector:pg17
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  default:
+    name: sysqlow-portable-context-engine_default
+volumes:
+  ollama-data:
+    name: sysqlow-portable-context-engine_ollama-data
+  postgres-data:
+    name: sysqlow-portable-context-engine_postgres-data
