@@ -14,6 +14,7 @@
       "name": "@sysqlow/api",
       "dependencies": {
         "hono": "^4.9.6",
+        "zod": "^4.1.13",
       },
     },
     "apps/cli": {

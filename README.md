@@ -69,6 +69,25 @@ Expected response:
 {"status":"ok"}
 ```
 
+Versioned API routes under `/v1/*` require `API_KEY` to be configured. Local clients can send either header:
+
+```bash
+API_KEY=change-me bun run dev:api
+curl -H 'Authorization: Bearer change-me' http://localhost:3000/v1/health
+curl -H 'x-api-key: change-me' http://localhost:3000/v1/health
+```
+
+API errors use this response shape:
+
+```json
+{
+	"error": {
+		"code": "UNAUTHORIZED",
+		"message": "Missing or invalid API key"
+	}
+}
+```
+
 ## Validate The Bootstrap
 
 ```bash
