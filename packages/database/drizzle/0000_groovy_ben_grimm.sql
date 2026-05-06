@@ -231,6 +231,8 @@ CREATE INDEX "decision_memories_created_at_idx" ON "decision_memories" USING btr
 CREATE INDEX "embeddings_workspace_id_idx" ON "embeddings" USING btree ("workspace_id");--> statement-breakpoint
 CREATE INDEX "embeddings_project_id_idx" ON "embeddings" USING btree ("project_id");--> statement-breakpoint
 CREATE INDEX "embeddings_chunk_id_idx" ON "embeddings" USING btree ("chunk_id");--> statement-breakpoint
+CREATE INDEX "embeddings_provider_model_dimensions_idx" ON "embeddings" USING btree ("provider","model","dimensions");--> statement-breakpoint
+CREATE UNIQUE INDEX "embeddings_scope_chunk_provider_model_idx" ON "embeddings" USING btree ("workspace_id","project_id","chunk_id","provider","model");--> statement-breakpoint
 CREATE INDEX "embeddings_created_at_idx" ON "embeddings" USING btree ("created_at");--> statement-breakpoint
 CREATE INDEX "embeddings_vector_idx" ON "embeddings" USING hnsw ("vector" vector_cosine_ops);--> statement-breakpoint
 CREATE INDEX "evaluation_cases_workspace_id_idx" ON "evaluation_cases" USING btree ("workspace_id");--> statement-breakpoint

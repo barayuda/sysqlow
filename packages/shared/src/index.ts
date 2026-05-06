@@ -258,3 +258,43 @@ export type EvaluationMode = z.infer<typeof evaluationModeSchema>
 export type EvaluationCase = z.infer<typeof evaluationCaseSchema>
 export type EvaluationScore = z.infer<typeof evaluationScoreSchema>
 export type EvaluationRun = z.infer<typeof evaluationRunSchema>
+
+export type EmbeddingProvider = {
+	provider: string
+	model: string
+	dimensions: number
+	embedText(text: string): Promise<Array<number>>
+}
+
+export type RetrieveContextInput = {
+	workspaceId: string
+	projectId: string
+	query: string
+	topK?: number
+}
+
+export type VectorSearchInput = {
+	workspaceId: string
+	projectId: string
+	vector: Array<number>
+	topK: number
+}
+
+export type TextSearchInput = {
+	workspaceId: string
+	projectId: string
+	query: string
+	topK: number
+}
+
+export type VectorSearchRepository = {
+	searchByVector(input: VectorSearchInput): Promise<Array<RetrievalCandidate>>
+}
+
+export type TextSearchRepository = {
+	searchByText(input: TextSearchInput): Promise<Array<RetrievalCandidate>>
+}
+
+export type Retriever = {
+	retrieve(input: RetrieveContextInput): Promise<Array<RetrievalCandidate>>
+}

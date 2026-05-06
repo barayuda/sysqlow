@@ -109,6 +109,56 @@ describe('CLI commands', () => {
 		})
 	})
 
+	test('builds retrieve API request', () => {
+		const request = buildCliRequest([
+			'retrieve',
+			'How do context packs work?',
+			'--workspace-id',
+			workspaceId,
+			'--project-id',
+			projectId,
+			'--top-k',
+			'7'
+		], {
+			apiUrl: 'http://localhost:3000',
+			apiKey: 'test-key'
+		})
+
+		expect(request.url).toBe('http://localhost:3000/v1/retrieve')
+		expect(request.init.method).toBe('POST')
+		expect(JSON.parse(String(request.init.body))).toEqual({
+			workspaceId,
+			projectId,
+			query: 'How do context packs work?',
+			topK: 7
+		})
+	})
+
+	test('builds naive-rag ask API request', () => {
+		const request = buildCliRequest([
+			'ask',
+			'--mode',
+			'naive-rag',
+			'How do context packs work?',
+			'--workspace-id',
+			workspaceId,
+			'--project-id',
+			projectId
+		], {
+			apiUrl: 'http://localhost:3000',
+			apiKey: 'test-key'
+		})
+
+		expect(request.url).toBe('http://localhost:3000/v1/ask')
+		expect(request.init.method).toBe('POST')
+		expect(JSON.parse(String(request.init.body))).toEqual({
+			workspaceId,
+			projectId,
+			query: 'How do context packs work?',
+			mode: 'naive-rag'
+		})
+	})
+
 	test('fails closed when CLI config is missing', () => {
 		expect(() => buildCliRequest([
 			'memory',

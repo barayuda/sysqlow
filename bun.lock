@@ -13,8 +13,11 @@
     "apps/api": {
       "name": "@sysqlow/api",
       "dependencies": {
+        "@sysqlow/database": "workspace:*",
         "@sysqlow/ingestion": "workspace:*",
         "@sysqlow/memory": "workspace:*",
+        "@sysqlow/model-adapters": "workspace:*",
+        "@sysqlow/retrieval": "workspace:*",
         "@sysqlow/shared": "workspace:*",
         "hono": "^4.9.6",
         "zod": "^4.1.13",
@@ -47,6 +50,7 @@
     "packages/database": {
       "name": "@sysqlow/database",
       "dependencies": {
+        "@sysqlow/shared": "workspace:*",
         "drizzle-orm": "^0.44.7",
         "postgres": "^3.4.7",
       },
@@ -68,9 +72,15 @@
     },
     "packages/model-adapters": {
       "name": "@sysqlow/model-adapters",
+      "dependencies": {
+        "@sysqlow/shared": "workspace:*",
+      },
     },
     "packages/retrieval": {
       "name": "@sysqlow/retrieval",
+      "dependencies": {
+        "@sysqlow/shared": "workspace:*",
+      },
     },
     "packages/security": {
       "name": "@sysqlow/security",

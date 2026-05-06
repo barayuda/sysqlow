@@ -96,6 +96,41 @@ export function buildCliRequest(argv: Array<string>, config: CliConfig): CliRequ
 		}
 	}
 
+	if (resource === 'retrieve') {
+		return {
+			url: `${baseUrl}/v1/retrieve`,
+			init: {
+				method: 'POST',
+				headers,
+				body: JSON.stringify({
+					workspaceId: requiredFlag(flags, 'workspace-id'),
+					projectId: requiredFlag(flags, 'project-id'),
+					query: requiredValue(action, 'query'),
+					...optionalTopK(flags)
+				})
+			}
+		}
+	}
+
+	if (resource === 'ask') {
+		const askFlags = parseFlags([action, ...rest].filter(Boolean))
+
+		return {
+			url: `${baseUrl}/v1/ask`,
+			init: {
+				method: 'POST',
+				headers,
+				body: JSON.stringify({
+					workspaceId: requiredFlag(askFlags, 'workspace-id'),
+					projectId: requiredFlag(askFlags, 'project-id'),
+					query: requiredValue(askFlags.positionals[0], 'query'),
+					mode: askFlags.values.mode ?? 'naive-rag',
+					...optionalTopK(askFlags)
+				})
+			}
+		}
+	}
+
 	throw new Error(`Unsupported command: ${argv.join(' ')}`)
 }
 
@@ -153,4 +188,22 @@ function requiredFlag(flags: ParsedFlags, key: string) {
 	}
 
 	return value
+}
+
+function requiredValue(value: string | undefined, name: string) {
+	if (!value) {
+		throw new Error(`${name} is required`)
+	}
+
+	return value
+}
+
+function optionalTopK(flags: ParsedFlags) {
+	if (!flags.values['top-k']) {
+		return {}
+	}
+
+	return {
+		topK: Number(flags.values['top-k'])
+	}
 }

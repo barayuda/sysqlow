@@ -267,6 +267,8 @@ export const embeddings = pgTable('embeddings', {
 	index('embeddings_workspace_id_idx').on(table.workspaceId),
 	index('embeddings_project_id_idx').on(table.projectId),
 	index('embeddings_chunk_id_idx').on(table.chunkId),
+	index('embeddings_provider_model_dimensions_idx').on(table.provider, table.model, table.dimensions),
+	uniqueIndex('embeddings_scope_chunk_provider_model_idx').on(table.workspaceId, table.projectId, table.chunkId, table.provider, table.model),
 	index('embeddings_created_at_idx').on(table.createdAt),
 	index('embeddings_vector_idx').using('hnsw', table.vector.op('vector_cosine_ops')),
 	foreignKey({

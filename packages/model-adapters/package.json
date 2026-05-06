@@ -1,5 +1,11 @@
 {
 	"name": "@sysqlow/model-adapters",
 	"private": true,
-	"type": "module"
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"dependencies": {
+		"@sysqlow/shared": "workspace:*"
+	}
 }
