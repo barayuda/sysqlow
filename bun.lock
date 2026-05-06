@@ -13,6 +13,7 @@
     "apps/api": {
       "name": "@sysqlow/api",
       "dependencies": {
+        "@sysqlow/ingestion": "workspace:*",
         "@sysqlow/memory": "workspace:*",
         "@sysqlow/shared": "workspace:*",
         "hono": "^4.9.6",
@@ -55,6 +56,9 @@
     },
     "packages/ingestion": {
       "name": "@sysqlow/ingestion",
+      "dependencies": {
+        "@sysqlow/shared": "workspace:*",
+      },
     },
     "packages/memory": {
       "name": "@sysqlow/memory",

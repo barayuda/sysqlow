@@ -87,6 +87,28 @@ describe('CLI commands', () => {
 		})
 	})
 
+	test('builds ingest markdown API request', () => {
+		const request = buildCliRequest([
+			'ingest',
+			'./docs',
+			'--workspace-id',
+			workspaceId,
+			'--project-id',
+			projectId
+		], {
+			apiUrl: 'http://localhost:3000',
+			apiKey: 'test-key'
+		})
+
+		expect(request.url).toBe('http://localhost:3000/v1/ingest/markdown')
+		expect(request.init.method).toBe('POST')
+		expect(JSON.parse(String(request.init.body))).toEqual({
+			workspaceId,
+			projectId,
+			path: './docs'
+		})
+	})
+
 	test('fails closed when CLI config is missing', () => {
 		expect(() => buildCliRequest([
 			'memory',

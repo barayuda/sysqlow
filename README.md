@@ -10,8 +10,10 @@ This repository currently provides the bootstrap monorepo foundation:
 - `apps/api` with `GET /health`
 - `packages/shared` domain types and Zod validation schemas
 - `packages/database` Drizzle schema and initial PostgreSQL/pgvector migration
+- `packages/ingestion` Markdown scanning, ignore rules, heading chunking, and source/chunk upsert service
 - `packages/memory` service for manual memory and decision records
 - authenticated `/v1/memory` and `/v1/decisions` API routes
+- authenticated `/v1/ingest/markdown` API route
 - `apps/cli` command request builder for memory and decision commands
 - placeholder apps and packages matching the planned repository structure
 - Docker Compose services for PostgreSQL with pgvector and Ollama
@@ -171,6 +173,23 @@ PATCH /v1/memory/:memoryId/deprecate
 PATCH /v1/decisions/:decisionId/deprecate
 ```
 
+## Markdown Ingestion
+
+Ingest a Markdown file or directory:
+
+```bash
+curl -X POST http://localhost:3000/v1/ingest/markdown \
+  -H 'Authorization: Bearer change-me' \
+  -H 'content-type: application/json' \
+  -d '{
+    "workspaceId": "0b7b6b82-7d0d-4d9a-8c12-4ccf19e7d6c0",
+    "projectId": "51a8949c-8ab2-4577-91cc-4f70fc77aace",
+    "path": "./docs"
+  }'
+```
+
+The ingestion service scans `.md` and `.mdx` files, ignores sensitive/build paths by default, chunks by Markdown headings, and records source metadata including file path, heading path, and line range.
+
 ## CLI
 
 The CLI currently builds API requests and sends them to `SYSQLOW_API_URL`.
@@ -193,11 +212,15 @@ SYSQLOW_API_KEY=change-me bun run --cwd apps/cli dev -- decision add \
   --title "Use MCP-first architecture" \
   --decision "Expose project context through MCP tools." \
   --reason "Multiple clients can consume the same context engine."
+
+SYSQLOW_API_KEY=change-me bun run --cwd apps/cli dev -- ingest ./docs \
+  --workspace-id 0b7b6b82-7d0d-4d9a-8c12-4ccf19e7d6c0 \
+  --project-id 51a8949c-8ab2-4577-91cc-4f70fc77aace
 ```
 
 ## Notes
 
 - The repository currently runs on the `main` branch in this workspace.
-- Memory and decision records currently use an in-process repository when the API starts. A database-backed repository is a later persistence slice.
+- Ingestion, memory, and decision records currently use in-process repositories when the API starts. Database-backed repositories are a later persistence slice.
 - Placeholder packages and apps are intentionally empty until their dedicated implementation tasks are started.
 - The project docs in `AGENTS.md`, `CODEX_TASK_PROMPTS.md`, and `SYSQLOW_CODEX_IMPLEMENTATION_PLAN.md` still define the next slices of work.

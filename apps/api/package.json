@@ -6,6 +6,7 @@
 		"dev": "bun --watch src/index.ts"
 	},
 	"dependencies": {
+		"@sysqlow/ingestion": "workspace:*",
 		"@sysqlow/memory": "workspace:*",
 		"@sysqlow/shared": "workspace:*",
 		"hono": "^4.9.6",

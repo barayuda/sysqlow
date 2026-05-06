@@ -81,6 +81,21 @@ export function buildCliRequest(argv: Array<string>, config: CliConfig): CliRequ
 		}
 	}
 
+	if (resource === 'ingest') {
+		return {
+			url: `${baseUrl}/v1/ingest/markdown`,
+			init: {
+				method: 'POST',
+				headers,
+				body: JSON.stringify({
+					workspaceId: requiredFlag(flags, 'workspace-id'),
+					projectId: requiredFlag(flags, 'project-id'),
+					path: action
+				})
+			}
+		}
+	}
+
 	throw new Error(`Unsupported command: ${argv.join(' ')}`)
 }
 
